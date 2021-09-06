@@ -4,6 +4,6 @@ package org.example
  * Hello world!
  *
  */
-object App extends Application {
+object Main extends App {
   println( "Hello World!" )
 }
