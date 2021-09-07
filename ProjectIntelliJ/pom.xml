@@ -10,7 +10,6 @@
   <properties>
     <scala.version>2.11.12</scala.version>
     <info.apiURL>https://doc.akka.io/api/akka/2.5.32</info.apiURL>
-    <info.apiURL>https://doc.akka.io/api/akka/2.5.32</info.apiURL>
   </properties>
 
   <dependencies>
@@ -33,7 +32,7 @@
 
   <build>
     <sourceDirectory>src/main/scala</sourceDirectory>
-    <testSourceDirectory>src/test/scala</testSourceDirectory>
+    <testSourceDirectory>target/maven-status</testSourceDirectory>
     <pluginManagement>
       <plugins>
         <plugin>
