@@ -2,22 +2,18 @@ package org.example
 
 import akka.actor.{Actor, ActorSystem, Props}
 
-/**
- * Hello world!
- *
- */
 object Pingpong extends App {
 
-  val system = ActorSystem("SimpleSystem")
-  val actor = system.actorOf(Props[SimpleActor], "SimpleActor")
+  class Actor1 extends Actor {
+    def receive = {
+      case "Ping" =>
+        println("Pong")
+    }
+  }
 
-  actor ! "Hello"
+  val system = ActorSystem("System1")
+  val actor = system.actorOf(Props[Actor1], "Actor1")
 
   system.terminate()
 
-  class SimpleActor extends Actor {
-    def receive = {
-      case s: String => println("s: " + s)
-    }
-  }
 }
