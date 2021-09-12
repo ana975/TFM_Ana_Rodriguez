@@ -6,6 +6,8 @@ object Pingpong extends App {
 
   class Actor1 extends Actor {
     def receive = {
+      case "a" =>
+        sender ! "b"
       case "Ping" =>
         println("Pong")
     }
@@ -14,6 +16,6 @@ object Pingpong extends App {
   val system = ActorSystem("System1")
   val actor = system.actorOf(Props[Actor1], "Actor1")
 
-  system.terminate()
+  //system.terminate()
 
 }
