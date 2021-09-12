@@ -6,8 +6,6 @@ object Pingpong extends App {
 
   class Actor1 extends Actor {
     def receive = {
-      case "a" =>
-        sender ! "b"
       case "Ping" =>
         println("Pong")
     }
