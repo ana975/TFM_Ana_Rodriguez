@@ -8,6 +8,7 @@ object Pingpong extends App {
     def receive = {
       case "Ping" =>
         println("Pong")
+        sender ! "Pong"
     }
   }
 
