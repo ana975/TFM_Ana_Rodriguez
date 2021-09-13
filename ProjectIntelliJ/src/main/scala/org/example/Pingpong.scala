@@ -14,7 +14,4 @@ object Pingpong extends App {
 
   val system = ActorSystem("System1")
   val actor = system.actorOf(Props[Actor1], "Actor1")
-
-  //system.terminate()
-
 }
