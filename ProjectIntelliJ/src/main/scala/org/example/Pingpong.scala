@@ -11,7 +11,6 @@ object Pingpong extends App {
         sender ! "Pong"
     }
   }
-
   val system = ActorSystem("System1")
   val actor = system.actorOf(Props[Actor1], "Actor1")
 }
