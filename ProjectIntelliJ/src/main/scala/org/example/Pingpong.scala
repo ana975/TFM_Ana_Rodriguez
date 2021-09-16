@@ -2,6 +2,7 @@ package org.example
 
 import akka.actor.{Actor, ActorSystem, Props}
 
+
 object Pingpong extends App {
 
   class Actor1 extends Actor {
