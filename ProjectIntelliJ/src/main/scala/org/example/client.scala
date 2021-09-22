@@ -1,31 +1,17 @@
 package org.example
 
-import akka.actor.{ActorPath, Props}
-import akka.cluster.client.{ClusterClient, ClusterClientReceptionist, ClusterClientSettings}
-import org.example.Pingpong.system
-import org.example.Pingpong.Actor1
+import akka.actor.{Actor, ActorLogging}
+import akka.cluster.client.{ClusterClient, ClusterClientSettings}
 
-
-akka.extensions = ["akka.cluster.client.ClusterClientReceptionist"]
 
 object client extends App {
-
-  def runOn(client: client.type) =
-
-  runOn(Actor1) {
-    val serviceA = system.actorOf(Props[Actor1], "serviceA")
-    ClusterClientReceptionist(system).registerService(serviceA)
-  }
-  runOn(client) {
-    val c = system.actorOf(
-      ClusterClient.props(ClusterClientSettings(system).withInitialContacts(initialContacts)),
-        "client")
-    c ! ClusterClient.Send("/Pingpong", localAffinity = true)
+  class Sender1 extends Actor with ActorLogging {
+      val system = system.actorOf(ClusterClient.props(ClusterClientSettings(system).withInitialContacts(initialContacts)),
+        "SystemClient")
+      val initialContacts = Set(system.actorSelection("akka.tcp: //ClusterSystem@127.0.0.1: 2551/user/Server"))
+      val c = system.actorOf(ClusterClient.props(initialContacts), "Client")
+      c ! ClusterClient.Send("/ user / Server", "Ping", localAffinity = true)
     }
-  val initialContacts = Set(ActorPath.fromString("akka.tcp://System1@127.0.0.1:2551"))
-  val settings = ClusterClientSettings(system).withInitialContacts(initialContacts)
-
+  }
 }
-
-
 
