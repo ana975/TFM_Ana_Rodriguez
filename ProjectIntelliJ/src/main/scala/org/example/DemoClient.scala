@@ -32,11 +32,7 @@ object DemoClient {
     val ccActor = system.actorOf(Props[ClusterClientActor], "ccActor")
 
     cc ! ClusterClient.Send("/user/master", ccActor, localAffinity = true)
-
-    (1 to 10).map { i =>
-      cc ! ClusterClient.Send("/user/master", s"Pong - $i", localAffinity = true)
-      Thread.sleep(10000)
-    }
+    cc ! ClusterClient.Send("/user/master", s"Ping", localAffinity = true)
   }
 
   class ClusterClientActor extends Actor with ActorLogging {

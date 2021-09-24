@@ -38,15 +38,10 @@ object DemoMaster {
   }
 
   class ClusterMaster extends Actor with ActorLogging {
-    var senderActor : ActorRef = null;
-
-    def receive = {
-      case a: ActorRef =>
-        log.info(s"from master : $a : $sender")
-        senderActor = a
-      case e =>
-        log.info(s"from master : $e : $senderActor")
-        if(senderActor != null) senderActor ! "Pong"
+    def receive= {
+      case "Ping" =>
+        log.info(s"from master : Ping : $sender")
+        sender ! "Pong"
     }
   }
 }
