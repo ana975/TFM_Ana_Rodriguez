@@ -3,6 +3,7 @@ package org.example
 import akka.actor.{Actor, ActorLogging, ActorPath, ActorSystem, Props}
 import akka.cluster.client.{ClusterClient, ClusterClientSettings}
 import com.typesafe.config.ConfigFactory
+import scala.io.StdIn
 
 object DemoClient {
 
@@ -32,13 +33,17 @@ object DemoClient {
     val ccActor = system.actorOf(Props[ClusterClientActor], "ccActor")
 
     cc ! ClusterClient.Send("/user/master", ccActor, localAffinity = true)
-    cc ! ClusterClient.Send("/user/master", s"Ping", localAffinity = true)
+    var line = ""
+    while ({line = StdIn.readLine (); line != null}) {println (line)}
+     cc ! ClusterClient.Send("/user/master", line, localAffinity = true)
   }
 
   class ClusterClientActor extends Actor with ActorLogging {
     def receive = {
       case e =>
         log.info(s"from cluster-client : $e : $sender")
+        println (e)
     }
   }
 }
+
