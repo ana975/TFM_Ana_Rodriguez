@@ -24,7 +24,8 @@
     <orderEntry type="library" name="Maven: io.aeron:aeron-driver:1.15.1" level="project" />
     <orderEntry type="library" name="Maven: org.agrona:agrona:0.9.31" level="project" />
     <orderEntry type="library" name="Maven: io.aeron:aeron-client:1.15.1" level="project" />
-    <orderEntry type="library" name="Maven: com.typesafe.akka:akka-cluster-tools_2.11:2.4.20" level="project" />
+    <orderEntry type="library" name="Maven: com.typesafe.akka:akka-cluster-tools_2.11:2.5.32" level="project" />
+    <orderEntry type="library" name="Maven: com.typesafe.akka:akka-coordination_2.11:2.5.32" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.spark:spark-sql_2.11:2.4.8" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.univocity:univocity-parsers:2.7.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.spark:spark-sketch_2.11:2.4.8" level="project" />

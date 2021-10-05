@@ -30,7 +30,7 @@ object DemoClient {
           }
           extensions = ["akka.cluster.client.ClusterClientReceptionist"]
           cluster.client {
-            initial-contacts = ["akka.tcp://NostromoCluster@127.0.0.1:2551/system/receptionist"]
+            initial-contacts = ["akka.tcp://ClusterSystem@127.0.0.1:2551/system/receptionist"]
             establishing-get-contacts-interval = 3s
             refresh-contacts-interval = 60s
             heartbeat-interval = 2s
