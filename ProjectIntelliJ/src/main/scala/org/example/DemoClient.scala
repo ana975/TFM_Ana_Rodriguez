@@ -69,10 +69,10 @@ object DemoClient {
     def receive: Receive = {
       case Query(message) =>
         demoClient = sender()
-        clientActor ! ClusterClient.Send("/user/master", message, localAffinity = false)
+        clientActor ! ClusterClient.Send("/user/master", Query(message), localAffinity = false)
       case msg: String =>
         println(s"Response: $msg")
-        demoClient ! ""
+        demoClient ! msg
     }
   }
 }

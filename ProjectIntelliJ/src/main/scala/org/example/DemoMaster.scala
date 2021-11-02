@@ -1,11 +1,14 @@
 package org.example
 
+
 import akka.actor._
 import akka.cluster.client.ClusterClientReceptionist
 import com.typesafe.config.ConfigFactory
+import org.example.Fail.fail
+import org.example.Result.result
 import org.example.SparkSQL.execute
 
-import scala.util.Try
+import scala.util.{Failure, Success, Try}
 
 
 object DemoMaster {
@@ -16,6 +19,7 @@ object DemoMaster {
 
     val config = ConfigFactory.parseString("""
       akka {
+        stdout-loglevel = "INFO"
         actor {
           provider = cluster
         }
@@ -40,8 +44,12 @@ object DemoMaster {
   class ClusterMaster extends Actor with ActorLogging {
     def receive: Receive = {
       case Query(msg) =>
-        val e = Try(execute(msg))
-        sender() ! (s"Response: $e")
+        Try(execute(msg)) match {
+          case Success(i) =>
+            sender() ! result(execute(msg))
+          case Failure(i) =>
+            sender() ! fail(execute(msg))
+        }
     }
   }
 }

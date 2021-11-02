@@ -1,16 +1,16 @@
 package org.example
 
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Row, SparkSession}
 
-object SparkSQL extends App {
+object SparkSQL {
 
   val spark = SparkSession
     .builder()
-    .appName("Spark SQL example")
-    .config("spark.some.config.option", "some-value")
+    .appName("Spark SQL")
+    .master("local")
     .getOrCreate()
 
-  def execute(arg: String): Unit = {
+  def execute(arg: String): Array[Row] = {
     val df = spark.sql(arg)
     df.collect()
   }
