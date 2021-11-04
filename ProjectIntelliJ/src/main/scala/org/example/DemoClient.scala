@@ -5,6 +5,8 @@ import akka.cluster.client.{ClusterClient, ClusterClientSettings}
 import akka.pattern.ask
 import akka.util.Timeout
 import com.typesafe.config.ConfigFactory
+import org.example.Fail.fail
+import org.example.Result.result
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -70,9 +72,11 @@ object DemoClient {
       case Query(message) =>
         demoClient = sender()
         clientActor ! ClusterClient.Send("/user/master", Query(message), localAffinity = false)
-      case msg: String =>
-        println(s"Response: $msg")
-        demoClient ! msg
+      case result(ans) =>
+        print(ans)
+      case fail(msg) =>
+        print(msg)
+
     }
   }
 }

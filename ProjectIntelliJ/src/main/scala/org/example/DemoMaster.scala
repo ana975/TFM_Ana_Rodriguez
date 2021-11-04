@@ -4,8 +4,9 @@ package org.example
 import akka.actor._
 import akka.cluster.client.ClusterClientReceptionist
 import com.typesafe.config.ConfigFactory
+import org.example.DemoClient.Query
 import org.example.Fail.fail
-import org.example.Result.result
+import org.example.Result.answerresult
 import org.example.SparkSQL.execute
 
 import scala.util.{Failure, Success, Try}
@@ -13,7 +14,6 @@ import scala.util.{Failure, Success, Try}
 
 object DemoMaster {
 
-  case class Query(msg: String)
 
   def main(args: Array[String]): Unit = {
 
@@ -45,10 +45,10 @@ object DemoMaster {
     def receive: Receive = {
       case Query(msg) =>
         Try(execute(msg)) match {
-          case Success(i) =>
-            sender() ! result(execute(msg))
-          case Failure(i) =>
-            sender() ! fail(execute(msg))
+          case Success(ans)=>
+            sender() ! answerresult(ans)
+          case Failure(ans) =>
+            sender() ! fail(msg)
         }
     }
   }
