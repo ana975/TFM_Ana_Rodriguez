@@ -45,10 +45,10 @@ object DemoMaster {
     def receive: Receive = {
       case Query(msg) =>
         Try(execute(msg)) match {
-          case Success(ans)=>
+          case Success(ans) =>
             sender() ! answerresult(ans)
           case Failure(ans) =>
-            sender() ! fail(msg)
+            sender() ! fail(ans)
         }
     }
   }

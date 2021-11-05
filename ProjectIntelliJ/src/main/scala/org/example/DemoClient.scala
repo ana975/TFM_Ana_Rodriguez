@@ -73,9 +73,9 @@ object DemoClient {
         demoClient = sender()
         clientActor ! ClusterClient.Send("/user/master", Query(message), localAffinity = false)
       case result(ans) =>
-        print(ans)
+        demoClient ! print(ans)
       case fail(msg) =>
-        print(msg)
+        demoClient ! print(msg)
 
     }
   }
