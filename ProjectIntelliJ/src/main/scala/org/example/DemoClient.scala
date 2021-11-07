@@ -58,9 +58,9 @@ object DemoClient {
     var message = ""
     while (message.toLowerCase() != "exit") {
       message = StdIn.readLine("Query: ")
-      Await.result(clientActor ? Query(message), timeout.duration)
+      val sol = Await.result(clientActor ? Query(message), timeout.duration)
+      println(sol)
     }
-
     system.terminate()
 
   }
@@ -73,9 +73,9 @@ object DemoClient {
         demoClient = sender()
         clientActor ! ClusterClient.Send("/user/master", Query(message), localAffinity = false)
       case result(ans) =>
-        demoClient ! print(ans)
+        demoClient ! result(ans)
       case fail(msg) =>
-        demoClient ! print(msg)
+        demoClient ! fail(msg)
 
     }
   }

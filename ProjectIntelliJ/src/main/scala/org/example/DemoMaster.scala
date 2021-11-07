@@ -48,7 +48,7 @@ object DemoMaster {
           case Success(ans) =>
             sender() ! answerresult(ans)
           case Failure(ans) =>
-            sender() ! fail(ans)
+            sender() ! fail(ans.toString)
         }
     }
   }
