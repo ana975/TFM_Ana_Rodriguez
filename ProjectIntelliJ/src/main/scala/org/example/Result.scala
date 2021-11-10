@@ -3,6 +3,7 @@ package org.example
 
 import org.apache.spark.sql.Row
 
+
 object Result {
 
   case class result(ans: String)

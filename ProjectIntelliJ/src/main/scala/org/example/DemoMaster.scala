@@ -4,6 +4,7 @@ package org.example
 import akka.actor._
 import akka.cluster.client.ClusterClientReceptionist
 import com.typesafe.config.ConfigFactory
+import org.apache.zookeeper.{Watcher, ZooKeeper}
 import org.example.DemoClient.Query
 import org.example.Fail.fail
 import org.example.Result.answerresult
@@ -47,6 +48,8 @@ object DemoMaster {
         Try(execute(msg)) match {
           case Success(ans) =>
             sender() ! answerresult(ans)
+            val zk = new ZooKeeper("2181", 30000, Watcher)
+            zk.setData(, Query(msg),-1)
           case Failure(ans) =>
             sender() ! fail(ans.toString)
         }
