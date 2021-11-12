@@ -8,7 +8,6 @@ import org.example.DemoClient.Query
 import org.example.Fail.fail
 import org.example.Result.answerresult
 import org.example.SparkSQL.execute
-import org.example.Zookeepers.zookeeper
 
 import scala.util.{Failure, Success, Try}
 
@@ -43,6 +42,7 @@ object DemoMaster {
   }
 
   class ClusterMaster extends Actor with ActorLogging {
+
     def receive: Receive = {
       case Query(msg) =>
         Try(execute(msg)) match {
