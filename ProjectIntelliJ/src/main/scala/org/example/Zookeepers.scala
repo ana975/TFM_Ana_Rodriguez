@@ -1,24 +1,23 @@
 package org.example
 
-import org.apache.zookeeper.{Watcher, ZooKeeper}
+import org.apache.curator.framework.{CuratorFramework, CuratorFrameworkFactory}
+import org.apache.curator.retry.ExponentialBackoffRetry
+
 
 object Zookeepers {
 
-  abstract class executor extends Watcher {
-    var filename = ""
-    def this(filename: String) {
-      this()
-      this.filename = filename
-    }
+  val retryPolicy = new ExponentialBackoffRetry(3000, 3)
+  val client: CuratorFramework = CuratorFrameworkFactory.newClient(" 127.0.0.1:2181", retryPolicy)
+  client.start()
+  val zk = client.getZookeeperClient.getZooKeeper
 
-    var i = 0
     def zookeeper(msg: String): Unit = {
       val result = msg.startsWith("CREATE TABLE")
-      if (result == true) {
-        i = 1+i
-        val zk = new ZooKeeper("127.0.0.1:2181", 30000, this)
-        zk.setData("tables/test" + i, msg.getBytes(), -1)
+      if (result) {
+        var pos = msg.indexOf("USING")
+        pos = pos - 1
+        val pathname = msg.substring(13, pos)
+        zk.setData(pathname, msg.getBytes(), -1)
       }
     }
-  }
 }

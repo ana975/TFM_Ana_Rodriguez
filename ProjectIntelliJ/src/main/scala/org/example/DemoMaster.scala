@@ -8,6 +8,7 @@ import org.example.DemoClient.Query
 import org.example.Fail.fail
 import org.example.Result.answerresult
 import org.example.SparkSQL.execute
+import org.example.Zookeepers.zookeeper
 
 import scala.util.{Failure, Success, Try}
 
