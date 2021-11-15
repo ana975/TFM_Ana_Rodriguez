@@ -8,7 +8,7 @@ import org.example.DemoClient.Query
 import org.example.Fail.fail
 import org.example.Result.answerresult
 import org.example.SparkSQL.execute
-import org.example.Zookeepers.zookeeper
+import org.example.Zookeepers.{readzookeeper, zookeeper}
 
 import scala.util.{Failure, Success, Try}
 
@@ -39,6 +39,7 @@ object DemoMaster {
     val system = ActorSystem("ClusterSystem", ConfigFactory.load(config))
     val master = system.actorOf(Props[ClusterMaster], "master")
     ClusterClientReceptionist(system).registerService(master)
+    readzookeeper()
 
   }
 

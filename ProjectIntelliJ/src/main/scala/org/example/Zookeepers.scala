@@ -2,6 +2,10 @@ package org.example
 
 import org.apache.curator.framework.{CuratorFramework, CuratorFrameworkFactory}
 import org.apache.curator.retry.ExponentialBackoffRetry
+import org.example.SparkSQL.execute
+
+import scala.collection.JavaConverters._
+
 
 
 object Zookeepers {
@@ -17,7 +21,15 @@ object Zookeepers {
         var pos = msg.indexOf("USING")
         pos = pos - 1
         val pathname = msg.substring(13, pos)
-        zk.setData(pathname, msg.getBytes(), -1)
+        zk.setData("/tables/" + pathname, msg.getBytes(), -1)
       }
+    }
+    def readzookeeper(): Unit = {
+      val nodelist = zk.getChildren("/tables/",false)
+      var info = ""
+      for (node<- nodelist.asScala){
+        info = info + zk.getData("/tables/" + node, false, null).toString()
+      }
+      execute(info)
     }
 }
