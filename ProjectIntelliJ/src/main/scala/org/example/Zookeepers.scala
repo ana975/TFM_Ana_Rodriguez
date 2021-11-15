@@ -23,7 +23,13 @@ object Zookeepers {
         val pathname = msg.substring(13, pos)
         zk.setData("/tables/" + pathname, msg.getBytes(), -1)
       }
+      val drop = msg.startsWith("DROP TABLE")
+      if (drop) {
+        val name = msg.substring(11)
+        zk.delete("/tables/"+ name, -1)
+      }
     }
+  
     def readzookeeper(): Unit = {
       val nodelist = zk.getChildren("/tables/",false)
       var info = ""
