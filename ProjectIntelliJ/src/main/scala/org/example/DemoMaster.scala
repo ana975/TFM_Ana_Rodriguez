@@ -31,7 +31,7 @@ object DemoMaster {
           }
         }
         cluster {
-          seed-nodes = ["akka.tcp://ClusterSystem@127.0.0.1:2551"]
+          seed-nodes = ["akka.tcp://ClusterSystem@127.0.0.1:2551","akka.tcp://ClusterSystem@127.0.0.1:2552"]
         }
         extensions = ["akka.cluster.client.ClusterClientReceptionist"]
       }""")

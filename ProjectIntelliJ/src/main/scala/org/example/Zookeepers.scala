@@ -29,7 +29,7 @@ object Zookeepers {
         zk.delete("/tables/"+ name, -1)
       }
     }
-  
+
     def readzookeeper(): Unit = {
       val nodelist = zk.getChildren("/tables/",false)
       var info = ""
