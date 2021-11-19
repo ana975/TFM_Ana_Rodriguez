@@ -8,7 +8,7 @@ import com.typesafe.config.ConfigFactory
 import org.example.Fail.fail
 import org.example.Result.result
 
-import scala.concurrent.Await
+import scala.concurrent.{Await}
 import scala.concurrent.duration._
 import scala.io.StdIn
 import scala.language.postfixOps
