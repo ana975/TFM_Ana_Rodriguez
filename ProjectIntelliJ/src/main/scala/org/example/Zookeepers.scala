@@ -5,6 +5,8 @@ import org.apache.curator.retry.ExponentialBackoffRetry
 import org.example.SparkSQL.execute
 
 import scala.collection.JavaConverters._
+import scala.language.postfixOps
+import scala.util.{Failure, Success, Try}
 
 
 
@@ -17,12 +19,17 @@ object Zookeepers {
 
     def zookeeper(msg: String): Unit = {
       val result = msg.startsWith("CREATE TABLE")
+
       if (result) {
+
         var pos = msg.indexOf("USING")
         pos = pos - 1
         val pathname = msg.substring(13, pos)
-        zk.setData("/tables/" + pathname, msg.getBytes(), -1)
+        if (result) {
+          zk.setData("/tables/" + pathname, msg.getBytes(), -1)
+        }
       }
+
       val drop = msg.startsWith("DROP TABLE")
       if (drop) {
         val name = msg.substring(11)
@@ -31,11 +38,15 @@ object Zookeepers {
     }
 
     def readzookeeper(): Unit = {
-      val nodelist = zk.getChildren("/tables",false)
-      var info = ""
-      for (node<- nodelist.asScala){
-        info = info + zk.getData("/tables/" + node, false, null).toString()
+      Try(zk.getChildren("/tables",false)) match {
+        case Success(ans) =>
+          var info = ""
+          for (node <- ans.asScala) {
+            info = info + zk.getData("/tables/" + node, false, null).toString()
+            execute(info)
+          }
+        case Failure(ans)=>
+          List[String]()
       }
-      execute(info)
     }
 }
