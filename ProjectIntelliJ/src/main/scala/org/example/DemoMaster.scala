@@ -5,6 +5,7 @@ import akka.actor._
 import akka.cluster.client.ClusterClientReceptionist
 import com.typesafe.config.ConfigFactory
 import org.example.DemoClient.Query
+import org.example.Fail.fail
 import org.example.Result.answerresult
 import org.example.SparkSQL.execute
 import org.example.Zookeepers.{readzookeeper, zookeeper}
@@ -51,7 +52,7 @@ object DemoMaster {
             zookeeper(msg)
             sender() ! answerresult(ans)
           case Failure(ans) =>
-            print(ans)
+            sender() ! fail(ans.toString)
         }
     }
   }
