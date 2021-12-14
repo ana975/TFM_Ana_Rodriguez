@@ -58,8 +58,10 @@ object DemoClient {
     var message = ""
     while (message.toLowerCase() != "exit") {
       message = StdIn.readLine("Query: ")
-      val sol = Await.result(clientActor ? Query(message), timeout.duration)
-      println(sol)
+      if(message.nonEmpty && !message.equals("exit")){
+        val sol = Await.result(clientActor ? Query(message), timeout.duration)
+        println(sol)
+      }
     }
     system.terminate()
 
