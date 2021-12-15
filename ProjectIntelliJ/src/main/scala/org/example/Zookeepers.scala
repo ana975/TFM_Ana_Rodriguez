@@ -26,6 +26,7 @@ object Zookeepers {
         pos = pos - 1
         val pathname = msg.substring(13, pos)
         if (result) {
+          client.create().creatingParentsIfNeeded().forPath("/tables/" + pathname)
           zk.setData("/tables/" + pathname, msg.getBytes(), -1)
         }
       }
@@ -40,9 +41,8 @@ object Zookeepers {
     def readzookeeper(): Unit = {
       Try(zk.getChildren("/tables",false)) match {
         case Success(ans) =>
-          var info = ""
           for (node <- ans.asScala) {
-            info = info + zk.getData("/tables/" + node, false, null).toString()
+            val info = new String(zk.getData("/tables/" + node, false, null))
             execute(info)
           }
         case Failure(ans)=>
